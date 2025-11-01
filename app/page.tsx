@@ -128,7 +128,7 @@ export default async function Home() {
           <h1 className="text-3xl tracking-[0.6em] text-[#ff0000] sm:text-4xl">
             おみくじ
           </h1>
-          <p className="mt-4 text-sm leading-relaxed text-[#ff0000]/80 sm:text-base"></p>
+          <p className="omikuji-lede mt-4 text-sm leading-relaxed sm:text-base"></p>
         </header>
 
         <OmikujiBoard fortunes={fortunes} />
