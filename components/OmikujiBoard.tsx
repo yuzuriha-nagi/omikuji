@@ -40,6 +40,10 @@ export default function OmikujiBoard({ fortunes }: OmikujiBoardProps) {
     setCurrentIndex((prev) => pickRandomIndex(fortunes.length, prev));
   }, [fortunes.length]);
 
+  const handleClear = useCallback(() => {
+    setCurrentIndex(-1);
+  }, []);
+
   const activeFortune = useMemo(
     () => (currentIndex >= 0 ? fortunes[currentIndex] : undefined),
     [currentIndex, fortunes]
@@ -77,15 +81,18 @@ export default function OmikujiBoard({ fortunes }: OmikujiBoardProps) {
       {fortunes.length > 0 && activeFortune ? (
         <article className="flex h-[520px] w-full max-w-[240px] flex-col items-center rounded-[32px] border border-[#ff0000] bg-white px-7 py-5 shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-[560px]">
           <div className="flex flex-1 flex-col items-center justify-start">
-            <p
+            <button
+              type="button"
+              onClick={handleClear}
               className={`${
                 tightenTitle
                   ? "mt-0 sm:mt-1 tracking-[0.46em]"
                   : "mt-1.5 sm:mt-2.5 tracking-[0.52em]"
-              } text-[2.8rem] text-[#ff0000] [text-orientation:upright] [writing-mode:vertical-rl] sm:text-[3.15rem]`}
+              } text-[2.8rem] text-[#ff0000] [text-orientation:upright] [writing-mode:vertical-rl] sm:text-[3.15rem] transition-opacity duration-150 hover:opacity-80 focus:opacity-80 focus:outline-none`}
+              aria-label="表示中のおみくじを閉じる"
             >
               {activeFortune.title}
-            </p>
+            </button>
           </div>
           <div className="mt-auto flex w-full justify-center gap-1.5 sm:gap-2">
             <CategoryColumn label={studyLabel} value={studyValue} />
@@ -102,19 +109,7 @@ export default function OmikujiBoard({ fortunes }: OmikujiBoardProps) {
             </p>
           ) : null}
         </article>
-      ) : (
-        <div className="w-full rounded-[32px] border border-dashed border-[#ff0000]/50 bg-white/80 px-8 py-10 text-center text-sm leading-7 text-[#ff0000]/80">
-          <p className="font-semibold tracking-[0.3em]">準備中</p>
-          <p className="mt-3">
-            `data/fortunes.csv` に
-            <span className="font-semibold">
-              {" "}
-              id,title,genre1 (ラッキーアイテム),genre2 (恋愛),genre3 (勉学),detail1～5
-            </span>
-            の形式でおみくじを追加すると、ここに縦書きで表示されます。
-          </p>
-        </div>
-      )}
+      ) : null}
     </section>
   );
 }
